@@ -1,0 +1,29 @@
+<apex:page controller="DiplayRelatedContacts" id="pg" lightningStylesheets="true">
+    <style>
+        .squeeze {
+            overflow: auto;
+            height: 200px;
+        }
+    </style>
+	<apex:form id="frm">
+		<apex:pageBlock id="pgblk" >
+             <apex:outputPanel layout="block" styleClass="squeeze">
+			<apex:pageBlockTable value="{!accList}" var="ac">
+				<apex:column width="10px">
+					<input type="radio" name="group1" />
+					<apex:actionSupport event="onclick" action="{!dispalyContact}" ReRender="conpgblk" >
+						<apex:param assignTo="{!accId}" name="accname" value="{!ac.id}"/>
+					</apex:actionSupport>
+				</apex:column>
+				<apex:column value="{!ac.Name}" />
+				<apex:column value="{!ac.AccountNumber}" />
+			</apex:pageBlockTable>
+            </apex:outputPanel>
+		</apex:pageBlock>
+        <apex:outputPanel id="conpgblk" >
+		<apex:pageBlock rendered="{!!ISBLANK(accId)}">
+            <apex:iframe src="/apex/DisplayRelatedLists?id={!accId}" rendered="{!!ISBLANK(accId)}"/>
+		</apex:pageBlock>
+        </apex:outputPanel>
+	</apex:form>
+</apex:page>
